@@ -85,7 +85,8 @@
                                                                                           </p>
 
                                                                                             <button onclick="startAira()">
-                                                                                                🎤 Talk to AIRA
+                              
+                                                                                               🎤 Talk to AIRA
                                                                                                   </button>
 
                                                                                                     <div id="output">
@@ -94,42 +95,107 @@
 
                                                                                                           </div>
 
-                                                                                                          <script>
-                                                                                                          function startAira() {
-                                                                                                            const status = document.getElementById("status");
+                                                                                                          
+                                                                                                           
+ <script>
 
-                                                                                                              if (!("webkitSpeechRecognition" in window)) {
-                                                                                                                  status.innerText =
-                                                                                                                        "Voice input is not supported in this browser.";
-                                                                                                                            return;
-                                                                                                                              }
+function startAira() {
+  const status = document.getElementById("status");
+    const output = document.getElementById("output");
+      const language = document.getElementById("voiceLanguage").value;
 
-                                                                                                                                const recognition =
-                                                                                                                                    new webkitSpeechRecognition();
+        const SpeechRecognition =
+            window.SpeechRecognition || window.webkitSpeechRecognition;
 
-                                                                                                                                      recognition.lang = "hi-IN";
-                                                                                                                                        recognition.onstart = () => {
-                                                                                                                                            status.innerText = "Listening...";
-                                                                                                                                              };
+              if (!SpeechRecognition) {
+                  status.innerText = "Voice input is not supported.";
+                      return;
+                        }
 
-                                                                                                                                                recognition.onresult = (event) => {
-                                                                                                                                                    const message =
-                                                                                                                                                          event.results[0][0].transcript;
+                          const recognition = new SpeechRecognition();
 
-                                                                                                                                                              document.getElementById("output")
-                                                                                                                                                                    .innerText = "You said: " + message;
+                            recognition.lang = language;
+                              recognition.continuous = false;
+                                recognition.interimResults = false;
 
-                                                                                                                                                                        status.innerText = "AIRA heard you!";
-                                                                                                                                                                          };
+                                  recognition.onstart = () => {
+                                      status.innerText = language === "hi-IN"
+                                            ? "सुन रही हूँ..."
+                                                  : "Listening...";
+                                                    };
 
-                                                                                                                                                                            recognition.onerror = () => {
-                                                                                                                                                                                status.innerText = "Please try again.";
-                                                                                                                                                                                  };
+                                                      recognition.onresult = (event) => {
+                                                          const message = event.results[0][0].transcript;
 
-                                                                                                                                                                                    recognition.start();
-                                                                                                                                                                                    }
-                                                                                                                                                                                    </script>
+                                                              output.innerText = "You said: " + message;
 
-                                                                                                                                                                                    </body>
-                                                                                                                                                                                    </html>
+                                                                  const reply = language === "hi-IN"
+                                                                        ? "नमस्ते! मैं आयरा हूँ। आपने कहा " + message
+                                                                              : "Hello! I am AIRA. You said " + message;
+
+                                                                                  status.innerText = language === "hi-IN"
+                                                                                        ? "मैं जवाब दे रही हूँ..."
+                                                                                              : "AIRA is replying...";
+
+                                                                                                  const speech = new SpeechSynthesisUtterance(reply);
+                                                                                                      speech.lang = language;
+                                                                                                          speech.rate = 0.95;
+                                                                                                              speech.pitch = 1.1;
+
+                                                                                                                  window.speechSynthesis.cancel();
+                                                                                                                      window.speechSynthesis.speak(speech);
+
+                                                                                                                          status.innerText = language === "hi-IN"
+                                                                                                                                ? "मैं तैयार हूँ!"
+                                                                                                                                      : "I am ready!";
+                                                                                                                                        };
+
+                                                                                                                                          recognition.onerror = () => {
+                                                                                                                                              status.innerText = "Please try again.";
+                                                                                                                                                };
+
+                                                                                                                                                  recognition.start();
+                                                                                                                                                  }
+                                                                                                                                                     </script>       
+
+                                                                                                            
+                                                                                                          
+                                                                                                         
+                                                                                                          
+                                                                                                            
+
+                                                                                                              
+                                                                                                                
+                                                                                                                        
+                                                                                                                            
+                                                                                                                              
+
+                                                                                                                          
+                                                                                                                                    
+
+                                                                                                                                      
+                                                                                                                                        
+                                                                                                                                          
+                                                                                                                                              
+
+                                                                                                                                                
+                                                                                                                                                    
+                                                                                                                                                          
+
+                                                                                                                                                              
+                                                                                                                                                                    
+
+                                                                                                                                                                        
+                                                                                                                                                                          
+
+                                                                                                                                                                            
+                                                                                                                                                                              
+                                                                                                                                                                                  
+
                                                                                                                                                                                     
+                                                                                                                                                                                    
+                                                                                                                                                                                    
+
+                                                                                                                                                
+                                                                                                                                                                                  
+                                                                                                                                                                                  
